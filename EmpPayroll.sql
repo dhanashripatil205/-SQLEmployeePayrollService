@@ -1,7 +1,8 @@
 ***** Welcome to Employee Payroll Service Problem. *****
 
-create database payroll_service;
-use payroll_service;
+create database payroll_service
+
+use payroll_service
 
 Create Table employee_payroll
 (
@@ -11,14 +12,13 @@ Salary int,
 StartDate datetime
 )
 
-insert into employee_payroll Values ('Dhanashri', 50450, '2023-03-28')
-insert into employee_payroll Values ('Kriya', 30596, '2022-11-26')
+insert into employee_payroll Values ('Dhanashri', 50450, '2013-03-28')
+insert into employee_payroll Values ('Kriti', 30596, '2018-11-3')
 
 select * from employee_payroll
 
 select Salary from Employee_Payroll where Name = 'Bill'
 select Name from Employee_Payroll where StartDate between '2018-01-01' and '2023-01-30'
-
 
 alter table employee_payroll
 add Gender char(1)
@@ -52,6 +52,9 @@ Phone int,
 Address varchar(120),
 ) 
 
+alter table Employee_Department add constraint Same_ID_One foreign key (ID) references employee_payroll(ID)
+
+
 select * from Employee_Department
 
 insert into Employee_Department Values (1,'IT',9406986233,'Mumbai')
@@ -74,6 +77,7 @@ IncomeTax bigint,
 NetPay bigint
 )
 
+alter table Payroll add constraint Same_ID_Two foreign key (ID) references employee_payroll(ID)
 
 
 insert into Payroll Values (1,45698,130,169,363,670)
