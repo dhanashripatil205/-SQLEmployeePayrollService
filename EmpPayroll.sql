@@ -13,3 +13,5 @@ StartDate datetime
 
 insert into employee_payroll Values ('Dhanashri', 50450, '2023-03-28')
 insert into employee_payroll Values ('Kriya', 30596, '2022-11-26')
+
+select * from employee_payroll
