@@ -64,3 +64,29 @@ insert into Employee_Department Values (6,'Hardware',9410369855,'US')
 select employee_payroll.ID, Name, Salary, StartDate, Gender, Department, Phone, Address
 from employee_payroll
 left join Employee_Department on employee_payroll.ID = Employee_Department.ID
+
+create table Payroll(
+ID int not null,
+BasicPay bigint,
+Deductions bigint,
+TaxablePay bigint,
+IncomeTax bigint,
+NetPay bigint
+)
+
+
+
+insert into Payroll Values (1,45698,130,169,363,670)
+insert into Payroll Values (2,36985,500,170,132,400)
+insert into Payroll Values (3,44000,120,136,456,350)
+insert into Payroll Values (4,89653,360,155,950,780)
+insert into Payroll Values (5,89653,570,163,431,600)
+insert into Payroll Values (6,32456,110,141,161,660)
+
+
+select * from Payroll
+
+select employee_payroll.ID, Name, Salary, StartDate,Gender, Department, Phone, Address, BasicPay, Deductions, TaxablePay, IncomeTax, NetPay
+from employee_payroll 
+left join Employee_Department on employee_payroll.ID = Employee_Department.ID
+left join Payroll on employee_payroll.ID = Payroll.ID
