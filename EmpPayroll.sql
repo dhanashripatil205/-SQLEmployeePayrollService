@@ -18,3 +18,11 @@ select * from employee_payroll
 
 select Salary from Employee_Payroll where Name = 'Bill'
 select Name from Employee_Payroll where StartDate between '2018-01-01' and '2023-01-30'
+
+
+alter table employee_payroll
+add Gender char(1)
+
+update employee_payroll
+set Gender = 'M'
+where name = 'Bill' or name ='Charlie'
