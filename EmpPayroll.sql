@@ -44,3 +44,23 @@ where Gender = 'F' GROUP BY Gender;
 
 select COUNT(Salary) FROM employee_payroll
 where Gender = 'F' GROUP BY Gender;
+
+create table Employee_Department(
+ID int not null,
+Department varchar(150) not null,
+Phone int, 
+Address varchar(120),
+) 
+
+select * from Employee_Department
+
+insert into Employee_Department Values (1,'IT',9406986233,'Mumbai')
+insert into Employee_Department Values (2,'Sales',9862539866, 'Goa')
+insert into Employee_Department Values (3,'AWS',9456986236,'Tamilnadu')
+insert into Employee_Department Values (4,'Cloud',9865325689,'Kerla')
+insert into Employee_Department Values (5,'Asset',9463289633,'Bengol')
+insert into Employee_Department Values (6,'Hardware',9410369855,'US')
+
+select employee_payroll.ID, Name, Salary, StartDate, Gender, Department, Phone, Address
+from employee_payroll
+left join Employee_Department on employee_payroll.ID = Employee_Department.ID
