@@ -15,7 +15,7 @@ namespace EmployeePayrollServiceSQL
         static SqlConnection connection = new SqlConnection(connectionString);
         public static string EstablishConnection()
         {
-            if (connection != null)
+             if (connection != null)
             {
                 try
                 {
@@ -106,6 +106,63 @@ namespace EmployeePayrollServiceSQL
                     }
                 }
                 return null;
+            }
+        }
+        public List<Employee> RetrieveFromDatabase_BetweenGivenDates(DateTime FirstDate, DateTime LastDate)
+        {
+            List<Employee> employees = new();
+            Employee emp = new();
+            string SPName = "dbo.GetAllDetails_BetweenGivenDates";
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(SPName, connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FirstDate", FirstDate);
+                command.Parameters.AddWithValue("@LastDate", LastDate);
+                Connect();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        DatabaseReader(reader, emp);
+                        employees.Add(emp);
+                        Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, " +
+                            "{11}, {12}", emp.Emp_ID, emp.Name, emp.Salary, emp.StartDate, emp.Gender,
+                            emp.Department, emp.Phone, emp.Address, emp.BasicPay, emp.Deductions,
+                            emp.TaxablePay, emp.IncomeTax, emp.NetPay);
+                    }
+                }
+                Dissconnect();
+            }
+            return employees;
+        }
+        public int InsertNewEmployee(Employee emp)
+        {
+            string SPName = "dbo.InsertEmployeeData";
+            using (connection)
+            {
+                Connect();
+                SqlCommand command = new SqlCommand(SPName, connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Name", emp.Name);
+                command.Parameters.AddWithValue("@Salary", emp.Salary);
+                command.Parameters.AddWithValue("@StartDate", emp.StartDate);
+                command.Parameters.AddWithValue("@Gender", emp.Gender);
+                command.Parameters.AddWithValue("@Department", emp.Department);
+                command.Parameters.AddWithValue("@Phone", emp.Phone);
+                command.Parameters.AddWithValue("@Address", emp.Address);
+                command.Parameters.AddWithValue("@BasicPay", emp.BasicPay);
+                command.Parameters.AddWithValue("@Deductions", emp.Deductions);
+                command.Parameters.AddWithValue("@TaxablePay", emp.TaxablePay);
+                command.Parameters.AddWithValue("@IncomeTax", emp.IncomeTax);
+                command.Parameters.AddWithValue("@NetPay", emp.NetPay);
+                var resultPara = command.Parameters.Add("@result", SqlDbType.Int);
+                resultPara.Direction = ParameterDirection.ReturnValue;
+                command.ExecuteNonQuery();
+                Dissconnect();
+                var result = resultPara.Value;
+                return (int)result;
             }
         }
 
