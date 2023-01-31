@@ -108,6 +108,35 @@ namespace EmployeePayrollServiceSQL
                 return null;
             }
         }
+        public List<Employee> RetrieveFromDatabase_BetweenGivenDates(DateTime FirstDate, DateTime LastDate)
+        {
+            List<Employee> employees = new();
+            Employee emp = new();
+            string SPName = "dbo.GetAllDetails_BetweenGivenDates";
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(SPName, connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FirstDate", FirstDate);
+                command.Parameters.AddWithValue("@LastDate", LastDate);
+                Connect();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        DatabaseReader(reader, emp);
+                        employees.Add(emp);
+                        Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, " +
+                            "{11}, {12}", emp.Emp_ID, emp.Name, emp.Salary, emp.StartDate, emp.Gender,
+                            emp.Department, emp.Phone, emp.Address, emp.BasicPay, emp.Deductions,
+                            emp.TaxablePay, emp.IncomeTax, emp.NetPay);
+                    }
+                }
+                Dissconnect();
+            }
+            return employees;
+        }
 
     }
 }
