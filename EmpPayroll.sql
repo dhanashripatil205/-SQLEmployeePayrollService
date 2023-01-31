@@ -19,6 +19,8 @@ select * from employee_payroll
 
 select Salary from Employee_Payroll where Name = 'Bill'
 select Name from Employee_Payroll where StartDate between '2018-01-01' and '2023-01-30'
+select Name from Employee_Payroll where StartDate between '2018-01-01' and GETDATE()
+
 
 alter table employee_payroll
 add Gender char(1)
