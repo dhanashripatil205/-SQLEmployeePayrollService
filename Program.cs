@@ -137,6 +137,58 @@ namespace EmployeePayrollServiceSQL
             }
             return employees;
         }
+        public int InsertNewEmployee(Employee emp)
+        {
+            string SPName = "dbo.InsertEmployeeData";
+            using (connection)
+            {
+                Connect();
+                SqlCommand command = new SqlCommand(SPName, connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Name", emp.Name);
+                command.Parameters.AddWithValue("@Salary", emp.Salary);
+                command.Parameters.AddWithValue("@StartDate", emp.StartDate);
+                command.Parameters.AddWithValue("@Gender", emp.Gender);
+                command.Parameters.AddWithValue("@Department", emp.Department);
+                command.Parameters.AddWithValue("@Phone", emp.Phone);
+                command.Parameters.AddWithValue("@Address", emp.Address);
+                command.Parameters.AddWithValue("@BasicPay", emp.BasicPay);
+                command.Parameters.AddWithValue("@Deductions", emp.Deductions);
+                command.Parameters.AddWithValue("@TaxablePay", emp.TaxablePay);
+                command.Parameters.AddWithValue("@IncomeTax", emp.IncomeTax);
+                command.Parameters.AddWithValue("@NetPay", emp.NetPay);
+                var resultPara = command.Parameters.Add("@result", SqlDbType.Int);
+                resultPara.Direction = ParameterDirection.ReturnValue;
+                command.ExecuteNonQuery();
+                Dissconnect();
+                var result = resultPara.Value;
+                return (int)result;
+            }
+        }
+        public int RemoveEmployee(int ID)
+        {
+            string SPName = "dbo.RemoveEmployeeData";
+            try
+            {
+                using (connection)
+                {
+                    Connect();
+                    SqlCommand command = new SqlCommand(SPName, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ID", ID);
+                    var resultPara = command.Parameters.Add("@result", SqlDbType.Int);
+                    resultPara.Direction = ParameterDirection.ReturnValue;
+                    command.ExecuteNonQuery();
+                    Dissconnect();
+                    var result = resultPara.Value;
+                    return (int)result;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }
