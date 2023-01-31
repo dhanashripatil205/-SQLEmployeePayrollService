@@ -96,3 +96,6 @@ select employee_payroll.ID, Name, Salary, StartDate,Gender, Department, Phone, A
 from employee_payroll 
 left join Employee_Department on employee_payroll.ID = Employee_Department.ID
 left join Payroll on employee_payroll.ID = Payroll.ID
+
+exec GetAllEmployeeDetails
+exec UpdateDetails 1, 30450
